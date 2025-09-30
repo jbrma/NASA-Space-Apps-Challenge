@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload your Dataset</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: #1a1a2e;
+            position: relative;
+            overflow: hidden;
+        }
+        .universe {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            left: 0;
+            top: 0;
+        }
+        .universe span {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="universe">
+        <script>
+        for(let i=0; i<50; i++) {
+            let star = document.createElement('span');
+            let size = Math.random() * 3 + 1; 
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = (Math.random()*100) + 'vw';
+            star.style.top = (Math.random()*100) + 'vh';
+            document.body.querySelector('.universe').appendChild(star);
+        }
+        </script>
+    </div>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center" style="color: white; -webkit-text-stroke: 1.5px black; text-stroke: 1px black;">Upload the Data to Hunt for Exoplanets with AI</h1>
+        <form method="post" enctype="multipart/form-data" class="border p-4 rounded bg-light">
+            <div class="mb-3">
+                <label for="dataset" class="form-label">Your Dataset</label>
+                <input class="form-control" type="file" id="dataset" name="dataset" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" style="background-color: #1a1a2e; color: white; border: 2px solid white;">Upload</button>
+        </form>
+        {% if message %}
+            <div class="alert alert-success mt-4" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
