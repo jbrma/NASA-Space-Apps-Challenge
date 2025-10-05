@@ -54,10 +54,17 @@
         </form>
 
         {% if message %}
-            <div class="alert alert-success mt-4" role="alert">
+            <div id="flask-message" class="alert alert-success mt-4" role="alert">
                 {{ message }}
             </div>
+            <script>
+                setTimeout(function() {
+                    var msg = document.getElementById('flask-message');
+                    if (msg) { msg.style.display = 'none'; }
+                }, 3500); // oculta el mensaje después de 3.5 segundos
+            </script>
         {% endif %}
+
         
         {% if result_file %}
         <div class="card mt-4 shadow" style="background:#232359;">
@@ -73,7 +80,7 @@
         {% if result_table %}
         <div class="card mt-4 shadow" style="background: #212142;">
             <div class="card-header" style="background: #2d2d61; color: #fff; border-bottom: 2px solid #fff;">
-                <h2 class="mb-0" style="font-size: 1.6rem;">Prediction Results</h2>
+                <h2 class="mb-0" style="font-size: 1.6rem;">Exoplanets Discovered</h2>
             </div>
             <div class="card-body bg-light p-4 rounded">
                 <div class="table-responsive">
