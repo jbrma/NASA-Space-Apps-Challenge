@@ -61,11 +61,10 @@
                 setTimeout(function() {
                     var msg = document.getElementById('flask-message');
                     if (msg) { msg.style.display = 'none'; }
-                }, 3500); // oculta el mensaje después de 3.5 segundos
+                }, 10000); // oculta el mensaje después de 3.5 segundos
             </script>
         {% endif %}
 
-        
         {% if result_file %}
         <div class="card mt-4 shadow" style="background:#232359;">
             <div class="card-body text-center">
@@ -75,6 +74,13 @@
                 </a>
             </div>
         </div>
+        {% endif %}
+
+        {% if metrics %}
+            <div class="card mt-4 p-3 bg-light text-dark">
+                <h5>Metrics</h5>
+                <pre>{{ metrics }}</pre>
+            </div>
         {% endif %}
 
         {% if result_table %}
