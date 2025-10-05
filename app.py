@@ -19,13 +19,15 @@ def predict_planets(df):
         input_df[col] = pd.to_numeric(input_df[col], errors='coerce').fillna(0)
     pred = rf_model.predict(input_df)
 
+    pred_labels = ['False Positive' if p == 0 else 'Confirmed Exoplanet' for p in pred]
+
     result = pd.DataFrame({
         'source': df['source'] if 'source' in df.columns else None,
         'id': df['id'].astype(str) if 'id' in df.columns else range(len(pred)),
         'host_id': df['host_id'] if 'host_id' in df.columns else None,
-        'prediction': pred
+        'prediction': pred_labels
     })
-    return result
+    return result, pred
 
 @app.route("/", methods=['GET', 'POST'])
 def upload_file():
@@ -50,16 +52,15 @@ def upload_file():
             return render_template('index.html', message=message)
 
         # Ejecutar modelo de IA sobre df
-        prediction_df = predict_planets(df)
+        prediction_df, pred_numeric = predict_planets(df)
         prediction_df['id'] = prediction_df['id'].astype(str)
 
         if 'label' in df.columns:
             y_true = df['label'].astype(int)
-            y_pred = prediction_df['prediction']
+            y_pred = pred_numeric
             acc = accuracy_score(y_true, y_pred)
             cm = confusion_matrix(y_true, y_pred)
             cr = classification_report(y_true, y_pred)
-
             metrics = f"Accuracy: {acc:.4f}\nConfusion Matrix:\n{cm}\nReport:\n{cr}"
 
         # Guardar datos de salida para descargar

@@ -11,7 +11,7 @@ features = [
     'insolation_se', 'eq_temp_k', 'stellar_teff_k', 'stellar_logg', 'stellar_radius_rsun',
     'depth_frac', 'rp_rs_est', 'duty_cycle', 'log_period', 'log_duration', 'log_depthppm',
 ]
-df = df.dropna(subset=features + ['label'])  # label es 0 (False Positive) o 1 (Confirmed)
+df = df.dropna(subset=features + ['label']) 
 X = df[features]
 y = df['label'].astype(int)
 
@@ -31,3 +31,17 @@ print(classification_report(ytest, ypred))
 print(f"Total de datos: {len(df)}")
 print(f"Entrenamiento: {len(Xtrain)}")
 print(f"Pruebas: {len(Xtest)}")
+
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+cm = confusion_matrix(ytest, ypred)
+plt.figure(figsize=(6,5))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=['False Positive', 'Confirmed Exoplanet'], yticklabels=['False Positive', 'Confirmed Exoplanet'])
+plt.xlabel('Predicted')
+plt.ylabel('Actual')
+plt.title('Confusion Matrix')
+plt.tight_layout()
+plt.savefig("confusion_matrix.png")
+plt.show()
