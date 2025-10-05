@@ -18,12 +18,14 @@ def predict_planets(df):
     for col in model_features:
         input_df[col] = pd.to_numeric(input_df[col], errors='coerce').fillna(0)
     pred = rf_model.predict(input_df)
-    if 'id' in df.columns:
-        return pd.DataFrame({'id': df['id'].astype(str), 'prediction': pred})
-    elif 'pl_name' in df.columns:
-        return pd.DataFrame({'id': df['pl_name'].astype(str), 'prediction': pred})
-    else:
-        return pd.DataFrame({'id': range(len(pred)), 'prediction': pred})
+
+    result = pd.DataFrame({
+        'source': df['source'] if 'source' in df.columns else None,
+        'id': df['id'].astype(str) if 'id' in df.columns else range(len(pred)),
+        'host_id': df['host_id'] if 'host_id' in df.columns else None,
+        'prediction': pred
+    })
+    return result
 
 @app.route("/", methods=['GET', 'POST'])
 def upload_file():
